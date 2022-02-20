@@ -35,7 +35,7 @@ def create_users():
     users[55] = User("Mattias", hashlib.sha256(
         "starwars".encode()).hexdigest(), "Mattias3@mail.com")
     users[73] = User("Mattias", hashlib.sha256(
-        "football".encode()).hexdigest(), "Mattias4@mail.com")
+        "experienced".encode()).hexdigest(), "Mattias4@mail.com")
     users[99] = User("Mattias", hashlib.sha256(
         "qwertyuiop".encode()).hexdigest(), "Mattias5@mail.com")
     c = db.cursor()
