@@ -21,7 +21,7 @@ def scrapePasswords():
     return set(hashedPasswords)
 
 
-def getLocalPasswords():
+def getLocalData():
     db = sqlite3.connect("users-db.sqlite")
     c = db.cursor()
     c.execute(
@@ -30,13 +30,17 @@ def getLocalPasswords():
         """
     )
     db.commit()
-    listOfUsers = set(c.fetchall())
-    return(set([i[2] for i in listOfUsers]))
+    return c.fetchall()
 
 
-badPasswordsSet = scrapePasswords()
-localPasswordsSet = getLocalPasswords()
-print("Bad: " + str(type(badPasswordsSet)) + '\n' +
-      "Local: " + str(type(localPasswordsSet)))
-badPasswordsLocal = localPasswordsSet.intersection(badPasswordsSet)
-print(len(badPasswordsLocal))
+badPasswords = scrapePasswords()
+localData = getLocalData()
+localPasswords = set([i[2] for i in localData])
+# O(n) time complexity, however no indices of where the users are.
+badPasswordsLocal = localPasswords.intersection(badPasswords)
+if(badPasswordsLocal):
+    for user_id, username, password, email in localData:
+        if(password in badPasswordsLocal):
+            print("User id: {0} \n Username: {1}, Email: {2}".format(
+                user_id, username, email))
+            print("____________")
